@@ -4,6 +4,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet-defaulticon-compatibility';
 import TerraCard from './components/TerraCard';
 import GIBSLayerSelector from './components/GIBSLayerSelector';
+import { BASE_URL } from './api'; // ✅ Import backend URL
 
 const locations = [
   { name: 'Bhopal', coords: [23.2599, 77.4126] },
@@ -21,7 +22,7 @@ function App() {
     const results = {};
     for (const loc of locations) {
       try {
-        const res = await fetch(`/api/terra-data?location=${loc.name}`);
+        const res = await fetch(`${BASE_URL}/api/terra-data?location=${loc.name}`); // ✅ Use live backend
         const data = await res.json();
         results[loc.name] = data;
       } catch (err) {
@@ -67,7 +68,7 @@ function App() {
 
   return (
     <div style={{ padding: '2rem', fontFamily: 'Segoe UI, sans-serif' }}>
-      {/* Centered Header */}
+      {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
         <img src="/modern-logo.png" alt="TerraScope Logo" style={{ height: '60px' }} />
         <h1 style={{ margin: '0.5rem 0' }}>🌍 TerraScope Dashboard</h1>
@@ -95,7 +96,7 @@ function App() {
         </div>
       </div>
 
-      {/* TerraCards in Grid */}
+      {/* TerraCards */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
@@ -113,7 +114,7 @@ function App() {
         ))}
       </div>
 
-      {/* Map Section */}
+      {/* Map */}
       <div style={{ marginTop: '3rem' }}>
         <h2>🗺️ Satellite View</h2>
         <MapContainer center={[23.2599, 77.4126]} zoom={5} style={{ height: '400px', width: '100%' }}>
